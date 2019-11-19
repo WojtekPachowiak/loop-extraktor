@@ -45,7 +45,7 @@ class WavePlayerLoop(threading.Thread) :
     while self.loop :
       stream.write(data)
       data = wf.readframes(self.CHUNK)
-      if data == '' : # If file is over then rewind.
+      if data == b'' : # If file is over then rewind.
         wf.rewind()
         data = wf.readframes(self.CHUNK)
 
