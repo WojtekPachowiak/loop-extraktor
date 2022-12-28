@@ -1,0 +1,3 @@
+- saving loop as .wav
+- implement 'rich' (python package) interface
+- load audio files by drag and drop
