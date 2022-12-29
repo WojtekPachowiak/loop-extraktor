@@ -1,3 +1,6 @@
 - saving loop as .wav
 - implement 'rich' (python package) interface
 - load audio files by drag and drop
+- in rich progress bar show time in seconds instead of frames
+- allow for speeding up
+- allow for arpegio se

@@ -3,6 +3,7 @@ from readchar import readkey, key
 import threading
 import sys
 
+
 class KeyboardThread(threading.Thread):
 
     def __init__(self, looper, **kwargs):
@@ -13,6 +14,7 @@ class KeyboardThread(threading.Thread):
         while True:
             k = readkey()  # waits to get input
             self._interpret(k)
+            
 
     def _interpret(self, k):
         # evaluate the keyboard input

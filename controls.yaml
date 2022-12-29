@@ -1,0 +1,8 @@
+SPACE : randomly choose audio loop's position
+S : unpause the recording
+E : pause the recording
+']' : increase loop length
+'[' : decrease loop length
+RIGHT_ARROW : move loop to the right
+LEFT_ARROW : move loop to the left
+R : save the selected loop as .wav

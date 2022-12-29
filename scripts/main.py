@@ -5,6 +5,7 @@ import time
 import typer
 import sys
 
+
 def main(wav_path: str, starting_loop_length: int=-1):
 
     #three threads
