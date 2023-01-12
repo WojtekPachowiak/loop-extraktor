@@ -2,6 +2,7 @@
 from readchar import readkey, key
 import threading
 import sys
+import msvcrt
 
 
 class KeyboardThread(threading.Thread):
@@ -12,8 +13,26 @@ class KeyboardThread(threading.Thread):
 
     def run(self):
         while True:
-            k = readkey()  # waits to get input
+            k = self._detect_console_input()  # waits to get input
             self._interpret(k)
+
+
+    def _detect_console_input(self):
+        'detects single key input as well as drag-n-dropped filepaths'
+        buf = ""
+        while True:
+            c = msvcrt.getwch()
+
+            if msvcrt.kbhit():
+                buf+=c
+            #return drag-n-dropped filepath
+            elif buf:
+                buf+=c
+                return buf
+            #return single key input
+            else:
+                return c
+                
             
 
     def _interpret(self, k):
