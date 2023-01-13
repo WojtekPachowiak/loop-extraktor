@@ -4,3 +4,4 @@
 - in rich progress bar show time in seconds instead of frames
 - allow for speeding up
 - allow for arpegio se
+- imlement applying audio effects

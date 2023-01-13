@@ -6,10 +6,10 @@ import typer
 import sys
 
 
-def main(wav_path: str, starting_loop_length: int=-1):
+def main(starting_loop_length: int=-1):
 
     #three threads
-    looper = Looper(wav_path, starting_loop_length, daemon=True)
+    looper = Looper(daemon=True)
     kthread = KeyboardThread(looper, daemon=True)
     pthread = PrintingThread(looper, daemon=True)
     threads = [looper,kthread,pthread]

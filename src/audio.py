@@ -17,14 +17,14 @@ class Looper(threading.Thread):
     """
 
     CHUNK_SIZE = 1024
-    RUNNING = True
+    RUNNING = False
     PAUSE = False
     START = 0
     END = None
     MOVE_SPEED = 10000
     
     @dataclass
-    class WaveMetadata:
+    class WavMetadata:
         nchannels:int
         sampwidth:int
         framerate:int
@@ -32,7 +32,7 @@ class Looper(threading.Thread):
 
     ############# INIT ###############
 
-    def __init__(self, srcpath:Path, destpath:Path, initial_loop_length: int = -1, **kwargs):
+    def __init__(self, destpath:str="", **kwargs):
         """
         Args:
           srcpath (str) : path to the currently playing .wav file.
@@ -41,24 +41,12 @@ class Looper(threading.Thread):
         """
         super().__init__(**kwargs)
 
-        self.filepath = os.path.abspath(srcpath)
-
-        self.wav = wave.open(self.filepath, 'rb')
-        self.wav_metadata = Looper.WaveMetadata(
-            nchannels=self.wav.getnchannels(), 
-            sampwidth=self.wav.getsampwidth(), 
-            framerate=self.wav.getframerate(),
-            nframes = self.wav.getnframes()
-            )
-
+        if not destpath.endswith("/") and not destpath.endswith("\\"):
+            destpath += "/"
+        self.destpath = destpath
+                
         self.player = pyaudio.PyAudio()
-        self.stream = self.player.open(format=self.player.get_format_from_width(self.wav_metadata.sampwidth),
-                                       channels=self.wav_metadata.nchannels,
-                                       rate=self.wav_metadata.framerate,
-                                       output=True)
-
-        self.END = self.wav_metadata.nframes if initial_loop_length == -1 else initial_loop_length
-        assert self.END != None
+        
 
     ############# PLAY AUDIO ###############
 
@@ -90,6 +78,27 @@ class Looper(threading.Thread):
     def stop(self):
         "stop playback."
         self.PAUSE = True
+
+    ############# CHANGE AUDIO FILE ###############
+
+    def load_audio(self, path:str):
+        'load audio file and immediately plays it'
+        self.filepath = os.path.abspath(path)
+        self.wav = wave.open(self.filepath, 'rb')
+        self.wav_metadata = Looper.WavMetadata(
+            nchannels=self.wav.getnchannels(), 
+            sampwidth=self.wav.getsampwidth(), 
+            framerate=self.wav.getframerate(),
+            nframes = self.wav.getnframes()
+            )
+        self.stream = self.player.open(format=self.player.get_format_from_width(self.wav_metadata.sampwidth),
+                                       channels=self.wav_metadata.nchannels,
+                                       rate=self.wav_metadata.framerate,
+                                       output=True)
+        self.reset_loop()
+        pthread = PrintingThread(looper, daemon=True)
+
+        self.run()
 
     ############# QUEARY WAVE ###############
 
@@ -140,6 +149,13 @@ class Looper(threading.Thread):
             self.END += diff
             assert self.START >= 0
     
+    def reset_loop(self):
+        'resets loop so that START==0 and END==maxframes. RUNNING becomes True'
+        self.START = 0
+        self.END = self.wav_metadata.nframes
+        self.RUNNING = True
+        self.PAUSE =False
+    
     ############# SAVE AUDIO LOOP AS WAV ###############
 
     def save_loop_as_wav(self):
@@ -151,7 +167,7 @@ class Looper(threading.Thread):
         self.set_current_frame(tmp)
 
         #save the new .wav file
-        name = datetime.now().strftime("%H-%M-%S__%d-%m-%y") + ".wav"
+        name = self.destpath + datetime.now().strftime("%H-%M-%S__%d-%m-%y") + ".wav"
         with wave.open(name, 'w') as f:
             f.setnchannels(self.wav_metadata.nchannels)
             f.setsampwidth(self.wav_metadata.sampwidth)

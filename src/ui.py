@@ -22,14 +22,62 @@ from rich.layout import Layout
 from rich.live import Live
 
 
+class PrintingThread(threading.Thread):
+    'Thread responsible for displaying in the console things such as frame count, controls instructions or current settings'
 
-class MyProgress(Progress):
-    'custom progress bar enclosed inside a Panel'
-    def get_renderables(self):
-        title=""
-        # if len(self.tasks) >0:
-        #     title = f"{self.tasks[0].completed}/{self.tasks[0].total}"
-        yield Panel(self.make_tasks_table(self.tasks), title=title,title_align="left")
+    def __init__(self, looper: Looper, **kwargs):
+        super().__init__(**kwargs)
+        self.looper = looper
+        self.console = Console()
+        self.setup_ui()
+
+    
+    def run(self):
+        with Live(self.layout, refresh_per_second=10, screen=True):
+            while True:
+                time.sleep(0.1)
+                self.audio_bar.update(self.audio_playing_task, completed=self.looper.get_current_frame())
+
+
+    def setup_ui(self):
+        'sets up all the TUI components that will be displayed in Live loop'
+        # text_column2 = MofNCompleteColumn ()
+        self.audio_bar = Progress(AudioProgressColumn(looper=self.looper))
+        self.audio_playing_task = self.audio_bar.add_task("...", total=self.looper.get_max_frames(),console_width=self.audio_bar.console.width)
+
+        #setup table with info about the playback
+        #TODO
+        
+        #setup table with info about controls
+        with open('controls.yaml', 'r') as file:
+            controls = yaml.safe_load(file)
+        controls_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
+        controls_table.add_column("Key", justify="right", style="dim cyan")
+        controls_table.add_column("explanation", justify="left")
+        for k,v in controls.items():
+            controls_table.add_row(k, v)
+
+        #setup table with info about the loop
+        loop_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
+        loop_table.add_column("Property",justify="right", style="dim cyan")
+        loop_table.add_column("Frame")
+        loop_table.add_row("Start",str(102))
+        loop_table.add_row("End",str(1214))
+        loop_table.add_row("Length",str(1214-102))
+
+        #gather all the above defined elements into a common layout
+        self.layout = Layout(name="root")
+        self.layout.split(
+            Layout(name="timeline",size=3),
+            Layout(name="rest"),
+        )
+        self.layout["rest"].split_row(
+            Layout(name="info"),
+            Layout(name="controls")
+        )
+        self.layout["timeline"].update(Panel(self.audio_bar))
+        self.layout["info"].update(loop_table)
+        self.layout["controls"].update(controls_table)
 
 
 
@@ -66,73 +114,6 @@ class AudioProgressColumn(TextColumn):
         text.stylize("bold red", s, e)
 
         return text
-
-
-
-
-class PrintingThread(threading.Thread):
-    'Thread responsible for displaying in the console things such as frame count, controls instructions or current settings'
-    timeline_len = 80
-    timeline_char = '━'
-    refresh_interval = 0.05  # in seconds
-
-    def __init__(self, looper: Looper, **kwargs):
-        super().__init__(**kwargs)
-        self.looper = looper
-        self.console = Console()
-        self.setup_ui()
-
-    
-    def run(self):
-        with Live(self.layout, refresh_per_second=10, screen=True):
-            while True:
-                time.sleep(0.1)
-                self.audio_bar.update(self.audio_playing_task, completed=self.looper.get_current_frame())
-
-    
-
-    def setup_ui(self):
-        'sets up all the TUI components that will be displayed in Live loop'
-        # text_column2 = MofNCompleteColumn ()
-        self.audio_bar = MyProgress(AudioProgressColumn(looper=self.looper))
-        self.audio_playing_task = self.audio_bar.add_task("...", total=self.looper.get_max_frames(),console_width=self.audio_bar.console.width)
-
-        #setup table with info about the playback
-        
-        #setup table with info about controls
-        with open('controls.yaml', 'r') as file:
-            controls = yaml.safe_load(file)
-        controls_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
-        controls_table.add_column("Key", justify="right", style="dim cyan")
-        controls_table.add_column("explanation", justify="left")
-        for k,v in controls.items():
-            controls_table.add_row(k, v)
-
-        #setup table with info about the loop
-        loop_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
-        loop_table.add_column("Property",justify="right")
-        loop_table.add_column("Frame")
-        loop_table.add_row("Start",str(102))
-        loop_table.add_row("End",str(1214))
-        loop_table.add_row("Length",str(1214-102))
-
-        self.layout = Layout(name="root")
-        self.layout.split(
-            Layout(name="timeline",size=3),
-            Layout(name="rest"),
-        )
-        self.layout["rest"].split_row(
-            Layout(name="info"),
-            Layout(name="controls")
-        )
-        self.layout["timeline"].update(self.audio_bar)
-        self.layout["info"].update(loop_table)
-        self.layout["controls"].update(controls_table)
-
-
-
-
-
 
 
 
