@@ -3,21 +3,27 @@ from readchar import readkey, key
 import threading
 import sys
 import msvcrt
+from utils import log, error
 
-
-class KeyboardThread(threading.Thread):
+class Input(threading.Thread):
 
     def __init__(self, looper, **kwargs):
-        super(KeyboardThread, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.looper = looper
 
     def run(self):
-        while True:
-            i, is_path = self._detect_console_input()  # waits to get input
-            if is_path:
-                self.looper.load_audio(i)
-            else:
-                self._interpret(i)
+        try:
+            while self.looper.is_running:
+                i, is_path = self._detect_console_input()  # waits to get input
+                if is_path:
+                    log(f"Provided path: {i}")
+                    self.looper.load_audio(i)
+                else:
+                    log(f"Provided key: {i}")
+                    self._interpret(i)
+        except Exception as e:
+            error(e)
+            sys.exit()
 
 
     def _detect_console_input(self):
@@ -36,9 +42,13 @@ class KeyboardThread(threading.Thread):
                 return c, False
                 
             
-
     def _interpret(self, k):
-        # evaluate the keyboard input
+        'evaluate the keypress input'
+        if k == key.ESC:
+                self.looper.is_running = False       
+        if not self.looper.is_wav_loaded:
+            return
+            
         match k:
             case '[':
                 self.looper.decrease_loop_length()
@@ -56,5 +66,4 @@ class KeyboardThread(threading.Thread):
                 self.looper.shuffle_loop_start()
             case 'r':
                 self.looper.save_loop_as_wav()
-            case key.ESC:
-                sys.exit()
+        

@@ -1,0 +1,274 @@
+15:43:11,867 root INFO Init finished!
+15:43:14,697 root INFO Provided path: c:\Users\wojtek\Desktop\Programming\Python\glitchy-sound-looper\sample_audio.wav
+15:43:14,838 root INFO Audio loaded!
+15:43:14,854 root INFO Timeline is being updated: 1024 / 806289
+15:43:14,896 root INFO Timeline is being updated: 2048 / 806289
+15:43:14,928 root INFO Timeline is being updated: 4096 / 806289
+15:43:14,961 root INFO Timeline is being updated: 5120 / 806289
+15:43:14,992 root INFO Timeline is being updated: 7168 / 806289
+15:43:15,20 root INFO Timeline is being updated: 8192 / 806289
+15:43:15,53 root INFO Timeline is being updated: 10240 / 806289
+15:43:15,85 root INFO Timeline is being updated: 11264 / 806289
+15:43:15,115 root INFO Timeline is being updated: 13312 / 806289
+15:43:15,146 root INFO Timeline is being updated: 14336 / 806289
+15:43:15,179 root INFO Timeline is being updated: 16384 / 806289
+15:43:15,210 root INFO Timeline is being updated: 17408 / 806289
+15:43:15,233 root INFO Timeline is being updated: 19456 / 806289
+15:43:15,276 root INFO Timeline is being updated: 21504 / 806289
+15:43:15,307 root INFO Timeline is being updated: 21504 / 806289
+15:43:15,338 root INFO Timeline is being updated: 23552 / 806289
+15:43:15,372 root INFO Timeline is being updated: 25600 / 806289
+15:43:15,403 root INFO Timeline is being updated: 26624 / 806289
+15:43:15,437 root INFO Timeline is being updated: 27648 / 806289
+15:43:15,468 root INFO Timeline is being updated: 29696 / 806289
+15:43:15,488 root INFO Timeline is being updated: 31744 / 806289
+15:43:15,531 root INFO Timeline is being updated: 32768 / 806289
+15:43:15,563 root INFO Timeline is being updated: 33792 / 806289
+15:43:15,564 root INFO Provided key: [
+15:43:15,594 root INFO Timeline is being updated: 35840 / 806289
+15:43:15,616 root INFO Timeline is being updated: 36864 / 806289
+15:43:15,633 root INFO Timeline is being updated: 37888 / 806289
+15:43:15,648 root INFO Timeline is being updated: 38912 / 806289
+15:43:15,664 root INFO Timeline is being updated: 39936 / 806289
+15:43:15,680 root INFO Timeline is being updated: 40960 / 806289
+15:43:15,723 root INFO Timeline is being updated: 41984 / 806289
+15:43:15,743 root INFO Timeline is being updated: 44032 / 806289
+15:43:15,786 root INFO Timeline is being updated: 45056 / 806289
+15:43:15,817 root INFO Timeline is being updated: 46080 / 806289
+15:43:15,846 root INFO Timeline is being updated: 48128 / 806289
+15:43:15,878 root INFO Timeline is being updated: 50176 / 806289
+15:43:15,909 root INFO Timeline is being updated: 51200 / 806289
+15:43:15,942 root INFO Timeline is being updated: 52224 / 806289
+15:43:15,972 root INFO Timeline is being updated: 54272 / 806289
+15:43:15,993 root INFO Timeline is being updated: 55296 / 806289
+15:43:16,35 root INFO Timeline is being updated: 56320 / 806289
+15:43:16,68 root INFO Timeline is being updated: 58368 / 806289
+15:43:16,68 root INFO Provided key: [
+15:43:16,96 root INFO Timeline is being updated: 59392 / 806289
+15:43:16,108 root INFO Provided key: [
+15:43:16,127 root INFO Timeline is being updated: 61440 / 806289
+15:43:16,141 root INFO Provided key: [
+15:43:16,157 root INFO Timeline is being updated: 62464 / 806289
+15:43:16,168 root INFO Provided key: [
+15:43:16,190 root INFO Timeline is being updated: 64512 / 806289
+15:43:16,201 root INFO Provided key: [
+15:43:16,222 root INFO Timeline is being updated: 65536 / 806289
+15:43:16,230 root INFO Provided key: [
+15:43:16,253 root INFO Timeline is being updated: 67584 / 806289
+15:43:16,262 root INFO Provided key: [
+15:43:16,288 root INFO Timeline is being updated: 69632 / 806289
+15:43:16,293 root INFO Provided key: [
+15:43:16,317 root INFO Timeline is being updated: 70656 / 806289
+15:43:16,325 root INFO Provided key: [
+15:43:16,348 root INFO Timeline is being updated: 72704 / 806289
+15:43:16,357 root INFO Provided key: [
+15:43:16,380 root INFO Timeline is being updated: 73728 / 806289
+15:43:16,392 root INFO Provided key: [
+15:43:16,412 root INFO Timeline is being updated: 75776 / 806289
+15:43:16,424 root INFO Provided key: [
+15:43:16,434 root INFO Timeline is being updated: 76800 / 806289
+15:43:16,450 root INFO Timeline is being updated: 76800 / 806289
+15:43:16,459 root INFO Provided key: [
+15:43:16,476 root INFO Timeline is being updated: 77824 / 806289
+15:43:16,492 root INFO Provided key: [
+15:43:16,497 root INFO Timeline is being updated: 79872 / 806289
+15:43:16,542 root INFO Timeline is being updated: 81920 / 806289
+15:43:16,543 root INFO Provided key: [
+15:43:16,575 root INFO Timeline is being updated: 82944 / 806289
+15:43:16,576 root INFO Provided key: [
+15:43:16,604 root INFO Timeline is being updated: 83968 / 806289
+15:43:16,605 root INFO Provided key: [
+15:43:16,625 root INFO Timeline is being updated: 84992 / 806289
+15:43:16,638 root INFO Provided key: [
+15:43:16,669 root INFO Timeline is being updated: 88064 / 806289
+15:43:16,670 root INFO Provided key: [
+15:43:16,704 root INFO Timeline is being updated: 90112 / 806289
+15:43:16,704 root INFO Provided key: [
+15:43:16,721 root INFO Timeline is being updated: 90112 / 806289
+15:43:16,735 root INFO Timeline is being updated: 90112 / 806289
+15:43:16,735 root INFO Provided key: [
+15:43:16,751 root INFO Timeline is being updated: 91136 / 806289
+15:43:16,759 root INFO Provided key: [
+15:43:16,767 root INFO Timeline is being updated: 93184 / 806289
+15:43:16,791 root INFO Provided key: [
+15:43:16,809 root INFO Timeline is being updated: 94208 / 806289
+15:43:16,819 root INFO Provided key: [
+15:43:16,839 root INFO Timeline is being updated: 96256 / 806289
+15:43:16,849 root INFO Provided key: [
+15:43:16,861 root INFO Timeline is being updated: 97280 / 806289
+15:43:16,880 root INFO Provided key: [
+15:43:16,904 root INFO Timeline is being updated: 98304 / 806289
+15:43:16,937 root INFO Timeline is being updated: 100352 / 806289
+15:43:16,937 root INFO Provided key: [
+15:43:16,970 root INFO Timeline is being updated: 101376 / 806289
+15:43:16,972 root INFO Provided key: [
+15:43:16,987 root INFO Timeline is being updated: 103424 / 806289
+15:43:16,991 root INFO Provided key: [
+15:43:17,2 root INFO Timeline is being updated: 104448 / 806289
+15:43:17,21 root INFO Provided key: [
+15:43:17,44 root INFO Timeline is being updated: 105472 / 806289
+15:43:17,53 root INFO Provided key: [
+15:43:17,76 root INFO Timeline is being updated: 107520 / 806289
+15:43:17,82 root INFO Provided key: [
+15:43:17,107 root INFO Timeline is being updated: 109568 / 806289
+15:43:17,114 root INFO Provided key: [
+15:43:17,137 root INFO Timeline is being updated: 110592 / 806289
+15:43:17,146 root INFO Provided key: [
+15:43:17,171 root INFO Timeline is being updated: 111616 / 806289
+15:43:17,202 root INFO Timeline is being updated: 112640 / 806289
+15:43:17,203 root INFO Provided key: [
+15:43:17,235 root INFO Timeline is being updated: 114688 / 806289
+15:43:17,235 root INFO Provided key: [
+15:43:17,254 root INFO Timeline is being updated: 115712 / 806289
+15:43:17,266 root INFO Provided key: [
+15:43:17,296 root INFO Timeline is being updated: 116736 / 806289
+15:43:17,297 root INFO Provided key: [
+15:43:17,327 root INFO Timeline is being updated: 118784 / 806289
+15:43:17,328 root INFO Provided key: [
+15:43:17,349 root INFO Timeline is being updated: 120832 / 806289
+15:43:17,362 root INFO Provided key: [
+15:43:17,391 root INFO Timeline is being updated: 121856 / 806289
+15:43:17,391 root INFO Provided key: [
+15:43:17,411 root INFO Timeline is being updated: 123904 / 806289
+15:43:17,423 root INFO Provided key: [
+15:43:17,457 root INFO Timeline is being updated: 124928 / 806289
+15:43:17,458 root INFO Provided key: [
+15:43:17,477 root INFO Timeline is being updated: 126976 / 806289
+15:43:17,488 root INFO Provided key: [
+15:43:17,490 root INFO Timeline is being updated: 126976 / 806289
+15:43:17,520 root INFO Timeline is being updated: 128000 / 806289
+15:43:17,520 root INFO Provided key: [
+15:43:17,548 root INFO Timeline is being updated: 130048 / 806289
+15:43:17,559 root INFO Provided key: [
+15:43:17,578 root INFO Timeline is being updated: 131072 / 806289
+15:43:17,592 root INFO Provided key: [
+15:43:17,611 root INFO Timeline is being updated: 133120 / 806289
+15:43:17,625 root INFO Provided key: [
+15:43:17,642 root INFO Timeline is being updated: 134144 / 806289
+15:43:17,652 root INFO Provided key: [
+15:43:17,674 root INFO Timeline is being updated: 135168 / 806289
+15:43:17,685 root INFO Provided key: [
+15:43:17,708 root INFO Timeline is being updated: 137216 / 806289
+15:43:17,715 root INFO Provided key: [
+15:43:17,737 root INFO Timeline is being updated: 139264 / 806289
+15:43:17,746 root INFO Provided key: [
+15:43:17,769 root INFO Timeline is being updated: 140288 / 806289
+15:43:17,777 root INFO Provided key: [
+15:43:17,804 root INFO Timeline is being updated: 141312 / 806289
+15:43:17,810 root INFO Provided key: [
+15:43:17,821 root INFO Timeline is being updated: 143360 / 806289
+15:43:17,848 root INFO Timeline is being updated: 144384 / 806289
+15:43:17,849 root INFO Provided key: [
+15:43:17,880 root INFO Timeline is being updated: 145408 / 806289
+15:43:17,881 root INFO Provided key: [
+15:43:17,899 root INFO Timeline is being updated: 147456 / 806289
+15:43:17,916 root INFO Timeline is being updated: 147456 / 806289
+15:43:17,921 root INFO Provided key: [
+15:43:17,930 root INFO Timeline is being updated: 148480 / 806289
+15:43:17,960 root INFO Timeline is being updated: 149504 / 806289
+15:43:17,960 root INFO Provided key: [
+15:43:17,990 root INFO Timeline is being updated: 150528 / 806289
+15:43:17,990 root INFO Provided key: [
+15:43:18,22 root INFO Timeline is being updated: 152576 / 806289
+15:43:18,22 root INFO Provided key: [
+15:43:18,53 root INFO Timeline is being updated: 153600 / 806289
+15:43:18,53 root INFO Provided key:  
+15:43:18,69 root INFO Timeline is being updated: 168460 / 806289
+15:43:18,85 root INFO Timeline is being updated: 168460 / 806289
+15:43:18,112 root INFO Timeline is being updated: 169484 / 806289
+15:43:18,143 root INFO Timeline is being updated: 171532 / 806289
+15:43:18,165 root INFO Timeline is being updated: 172556 / 806289
+15:43:18,196 root INFO Timeline is being updated: 173580 / 806289
+15:43:18,238 root INFO Timeline is being updated: 175628 / 806289
+15:43:18,269 root INFO Timeline is being updated: 177676 / 806289
+15:43:18,301 root INFO Timeline is being updated: 178700 / 806289
+15:43:18,331 root INFO Timeline is being updated: 179724 / 806289
+15:43:18,363 root INFO Timeline is being updated: 181772 / 806289
+15:43:18,384 root INFO Timeline is being updated: 182796 / 806289
+15:43:18,400 root INFO Timeline is being updated: 183820 / 806289
+15:43:18,414 root INFO Timeline is being updated: 183820 / 806289
+15:43:18,430 root INFO Timeline is being updated: 185868 / 806289
+15:43:18,458 root INFO Timeline is being updated: 185868 / 806289
+15:43:18,489 root INFO Timeline is being updated: 187916 / 806289
+15:43:18,519 root INFO Timeline is being updated: 188940 / 806289
+15:43:18,550 root INFO Timeline is being updated: 190988 / 806289
+15:43:18,571 root INFO Timeline is being updated: 192012 / 806289
+15:43:18,613 root INFO Timeline is being updated: 194060 / 806289
+15:43:18,636 root INFO Timeline is being updated: 195084 / 806289
+15:43:18,668 root INFO Timeline is being updated: 196108 / 806289
+15:43:18,696 root INFO Timeline is being updated: 198156 / 806289
+15:43:18,711 root INFO Timeline is being updated: 198156 / 806289
+15:43:18,756 root INFO Timeline is being updated: 200204 / 806289
+15:43:18,788 root INFO Timeline is being updated: 202252 / 806289
+15:43:18,820 root INFO Timeline is being updated: 203276 / 806289
+15:43:18,839 root INFO Timeline is being updated: 205324 / 806289
+15:43:18,870 root INFO Timeline is being updated: 206348 / 806289
+15:43:18,917 root INFO Timeline is being updated: 207372 / 806289
+15:43:18,935 root INFO Timeline is being updated: 209420 / 806289
+15:43:18,949 root INFO Timeline is being updated: 210444 / 806289
+15:43:18,965 root INFO Timeline is being updated: 210444 / 806289
+15:43:18,980 root INFO Timeline is being updated: 211468 / 806289
+15:43:19,10 root INFO Timeline is being updated: 213516 / 806289
+15:43:19,39 root INFO Timeline is being updated: 213516 / 806289
+15:43:19,57 root INFO Timeline is being updated: 215564 / 806289
+15:43:19,73 root INFO Timeline is being updated: 216588 / 806289
+15:43:19,89 root INFO Timeline is being updated: 216588 / 806289
+15:43:19,120 root INFO Timeline is being updated: 218636 / 806289
+15:43:19,135 root INFO Timeline is being updated: 219660 / 806289
+15:43:19,151 root INFO Timeline is being updated: 219660 / 806289
+15:43:19,195 root INFO Timeline is being updated: 220684 / 806289
+15:43:19,228 root INFO Timeline is being updated: 222732 / 806289
+15:43:19,258 root INFO Timeline is being updated: 223756 / 806289
+15:43:19,290 root INFO Timeline is being updated: 226828 / 806289
+15:43:19,294 root INFO Provided key: [
+15:43:19,307 root INFO Timeline is being updated: 227852 / 806289
+15:43:19,348 root INFO Timeline is being updated: 228876 / 806289
+15:43:19,380 root INFO Timeline is being updated: 230924 / 806289
+15:43:19,414 root INFO Timeline is being updated: 231948 / 806289
+15:43:19,446 root INFO Timeline is being updated: 233996 / 806289
+15:43:19,463 root INFO Timeline is being updated: 235020 / 806289
+15:43:19,479 root INFO Timeline is being updated: 235020 / 806289
+15:43:19,523 root INFO Timeline is being updated: 237068 / 806289
+15:43:19,555 root INFO Timeline is being updated: 238092 / 806289
+15:43:19,582 root INFO Timeline is being updated: 240140 / 806289
+15:43:19,603 root INFO Timeline is being updated: 242188 / 806289
+15:43:19,646 root INFO Timeline is being updated: 243212 / 806289
+15:43:19,679 root INFO Timeline is being updated: 245260 / 806289
+15:43:19,698 root INFO Timeline is being updated: 246284 / 806289
+15:43:19,740 root INFO Timeline is being updated: 248332 / 806289
+15:43:19,772 root INFO Timeline is being updated: 249356 / 806289
+15:43:19,804 root INFO Timeline is being updated: 250380 / 806289
+15:43:19,804 root INFO Provided key: [
+15:43:19,839 root INFO Timeline is being updated: 252428 / 806289
+15:43:19,840 root INFO Provided key: [
+15:43:19,854 root INFO Timeline is being updated: 253452 / 806289
+15:43:19,881 root INFO Timeline is being updated: 254476 / 806289
+15:43:19,881 root INFO Provided key: [
+15:43:19,913 root INFO Timeline is being updated: 256524 / 806289
+15:43:19,913 root INFO Provided key: [
+15:43:19,947 root INFO Timeline is being updated: 257548 / 806289
+15:43:19,947 root INFO Provided key: [
+15:43:19,976 root INFO Timeline is being updated: 258572 / 806289
+15:43:19,976 root INFO Provided key: [
+15:43:19,995 root INFO Timeline is being updated: 260620 / 806289
+15:43:20,10 root INFO Provided key: [
+15:43:20,27 root INFO Timeline is being updated: 261644 / 806289
+15:43:20,31 root INFO Provided key: [
+15:43:20,41 root INFO Timeline is being updated: 262668 / 806289
+15:43:20,63 root INFO Provided key: [
+15:43:20,82 root INFO Timeline is being updated: 263692 / 806289
+15:43:20,130 root INFO Timeline is being updated: 169484 / 806289
+15:43:20,139 root INFO Provided path: [[
+15:43:20,140 root ERROR [Errno 2] No such file or directory: 'C:\\Users\\wojtek\\Desktop\\Programming\\Python\\glitchy-sound-looper\\[['
+15:43:20,151 root INFO Timeline is being updated: 170508 / 806289
+15:43:20,167 root INFO Timeline is being updated: 171532 / 806289
+15:43:20,200 root INFO Timeline is being updated: 172556 / 806289
+15:43:20,228 root INFO Timeline is being updated: 173580 / 806289
+15:43:20,244 root INFO Timeline is being updated: 174604 / 806289
+15:43:20,259 root INFO Timeline is being updated: 175628 / 806289
+15:43:20,290 root INFO Timeline is being updated: 177676 / 806289
+15:43:20,306 root INFO Timeline is being updated: 177676 / 806289
+15:43:20,321 root INFO Timeline is being updated: 178700 / 806289
+15:43:20,353 root INFO Timeline is being updated: 179724 / 806289
+15:43:20,384 root INFO Timeline is being updated: 181772 / 806289
+15:43:20,399 root INFO Timeline is being updated: 182796 / 806289
