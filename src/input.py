@@ -4,20 +4,20 @@ import threading
 import sys
 import msvcrt
 from utils import log, error
+from audio_settings import AudioSettings
 
 class Input(threading.Thread):
 
-    def __init__(self, looper, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.looper = looper
 
     def run(self):
         try:
-            while self.looper.is_running:
+            while AudioSettings.is_running:
                 i, is_path = self._detect_console_input()  # waits to get input
                 if is_path:
                     log(f"Provided path: {i}")
-                    self.looper.load_audio(i)
+                    AudioSettings.load_audio(i)
                 else:
                     log(f"Provided key: {i}")
                     self._interpret(i)
@@ -30,13 +30,15 @@ class Input(threading.Thread):
         "detects single key input as well as drag-n-dropped filepaths. Additionally returns True if it's a path and False otherwise"
         buf = ""
         while True:
-            c = msvcrt.getwch()
+            c = readkey()
             if msvcrt.kbhit():
                 buf+=c
             #return drag-n-dropped filepath
             elif buf:
                 buf+=c
-                return buf, True
+                tmp = buf
+                buf = ""
+                return tmp, True
             #return single key input
             else:
                 return c, False
@@ -45,25 +47,25 @@ class Input(threading.Thread):
     def _interpret(self, k):
         'evaluate the keypress input'
         if k == key.ESC:
-                self.looper.is_running = False       
-        if not self.looper.is_wav_loaded:
+                AudioSettings.is_running = False       
+        if not AudioSettings.is_wav_loaded:
             return
             
         match k:
             case '[':
-                self.looper.decrease_loop_length()
+                AudioSettings.decrease_loop_length()
             case ']':
-                self.looper.increase_loop_length()
+                AudioSettings.increase_loop_length()
             case key.RIGHT:
-                self.looper.move_loop(1)
+                AudioSettings.move_loop(1)
             case key.LEFT:
-                self.looper.move_loop(-1)
+                AudioSettings.move_loop(-1)
             case 's':
-                self.looper.play()
+                AudioSettings.play()
             case 'e':
-                self.looper.stop()
+                AudioSettings.stop()
             case key.SPACE:
-                self.looper.shuffle_loop_start()
+                AudioSettings.shuffle_loop_start()
             case 'r':
-                self.looper.save_loop_as_wav()
+                AudioSettings.save_loop_as_wav()
         

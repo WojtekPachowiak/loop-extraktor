@@ -10,6 +10,8 @@ from rich import box
 from rich.layout import Layout
 from rich.live import Live
 
+
+from audio_settings import AudioSettings
 import threading
 import time
 import yaml
@@ -21,9 +23,8 @@ from utils import log
 class UI(threading.Thread):
     'Thread responsible for displaying in the console things such as frame count, controls instructions or current settings'
 
-    def __init__(self, looper, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.looper = looper
         
 
         #load controls instructions that will be displayed
@@ -32,13 +33,13 @@ class UI(threading.Thread):
 
     
     def run(self):
-        self.audio_bar = Progress(AudioProgressColumn(looper=self.looper, justify="center"), expand=True)
+        self.audio_bar = Progress(AudioProgressColumn(justify="center"), expand=True)
         self.audio_bar.add_task("Audio timeline progress", console_width=self.audio_bar.console.width-6)
 
         self.setup_layout()
         self.update_layout()
-        with Live(self.layout, refresh_per_second=100, screen=True, redirect_stderr =False) as live:
-            while self.looper.is_running:
+        with Live(self.layout, refresh_per_second=100, screen=True) as live:
+            while AudioSettings.is_running:
                 time.sleep(0.01)
                 self.update_layout()
 
@@ -75,12 +76,12 @@ class UI(threading.Thread):
 
     def draw_timeline(self):
         'draw audio timeline'
-        if self.looper.is_wav_loaded:
-            log(f"Timeline is being updated: {self.looper.get_current_frame()} / {self.looper.get_max_frames()}")
+        if AudioSettings.is_wav_loaded:
+            log(f"Timeline is being updated: {AudioSettings.get_current_frame()} / {AudioSettings.get_max_frames()}")
             self.audio_bar.update(
                 self.audio_bar.task_ids[0], 
-                total=self.looper.get_max_frames(), 
-                completed=self.looper.get_current_frame(), 
+                total=AudioSettings.get_max_frames(), 
+                completed=AudioSettings.get_current_frame(), 
                 console_width=self.audio_bar.console.width-6)
         self.layout["timeline"].update(Panel(self.audio_bar,expand=True))
 
@@ -90,13 +91,13 @@ class UI(threading.Thread):
         audio_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
         audio_table.add_column("Property",justify="right", style="cyan")
         audio_table.add_column("Frame")
-        if self.looper.is_wav_loaded:
-            audio_table.add_row("Start", f"{self.looper.START:,}")
-            audio_table.add_row("End", f"{self.looper.END:,}")
-            audio_table.add_row("Length", f"{self.looper.END - self.looper.START:,}")
+        if AudioSettings.is_wav_loaded:
+            audio_table.add_row("Start", f"{AudioSettings.START:,}")
+            audio_table.add_row("End", f"{AudioSettings.END:,}")
+            audio_table.add_row("Length", f"{AudioSettings.END - AudioSettings.START:,}")
             audio_table.add_section()
-            audio_table.add_row("Frames", f"{self.looper.get_current_frame():,} / {self.looper.get_max_frames():,}")
-            audio_table.add_row("Miliseconds",f"{self.looper.get_current_frame(ms_convert=True):,} / {self.looper.get_max_frames(ms_convert=True):,}")
+            audio_table.add_row("Frames", f"{AudioSettings.get_current_frame():,} / {AudioSettings.get_max_frames():,}")
+            audio_table.add_row("Miliseconds",f"{AudioSettings.get_current_frame(ms_convert=True):,} / {AudioSettings.get_max_frames(ms_convert=True):,}")
         else:
             audio_table.add_row("Start", "-" )
             audio_table.add_row("End", "-")
@@ -111,17 +112,16 @@ class UI(threading.Thread):
 
 class AudioProgressColumn(TextColumn):
     'custom progress bar column for displaying audio progress and a loop'
-    def __init__(self, looper, text_format="", *args, **kwargs) -> None:
-        self.looper = looper
+    def __init__(self, text_format="", *args, **kwargs) -> None:
         super().__init__(text_format, *args, **kwargs)
 
     def render(self, task: Task) -> Text:
-        if not self.looper.is_wav_loaded:
+        if not AudioSettings.is_wav_loaded:
             return Text("DRAG-N-DROP SOME .WAV FILE!", justify=self.justify,  style="bold red")
         else:
             width = task.fields["console_width"] + 1 #+1 because of indicator
-            ls = self.looper.START
-            le = self.looper.END
+            ls = AudioSettings.START
+            le = AudioSettings.END
             bar = "█"
             indicator = "|"
             

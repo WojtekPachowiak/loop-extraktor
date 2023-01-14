@@ -2,7 +2,7 @@ import logging
 
 logging.basicConfig(filename="log.txt",
                     filemode='w',
-                    format='%(levelname)s: %(message)s',
+                    format='%(threadName)s | %(levelname)s: %(message)s',
                     level=logging.DEBUG)
 
 def log(msg :str):
