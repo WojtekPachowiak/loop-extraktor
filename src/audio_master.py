@@ -4,13 +4,13 @@ from typing import Literal
 import wave
 import random
 import pyaudio
-from pathlib import Path
 from datetime import datetime
 import sys
 from utils import log
-import time
+from pedalboard import Pedalboard, Chorus, Reverb
+import numpy as np
 
-class AudioSettings():
+class AudioMaster():
     """
     Looper is the master of all - coordiantes the work of input, UI and audio threads. 
     Also stores information which is quieried by UI and audio threads.
@@ -71,7 +71,6 @@ class AudioSettings():
     def close(cls):
         'clean up and terminate the app'
         log("Closing app!")
-        cls.audio_thread
 
         cls.wav.close()
         cls.stream.close()
@@ -89,6 +88,7 @@ class AudioSettings():
                                        channels=cls.wav.getnchannels(),
                                        rate=cls.wav.getframerate(),
                                        output=True)
+        log(f"stream format: {cls.player.get_format_from_width(cls.wav.getsampwidth())}")
         log("Audio loaded!")
         cls.is_paused = False
         cls.reset_loop()
@@ -152,18 +152,22 @@ class AudioSettings():
     def move_loop(cls, direction: Literal[-1, 1]):
         'move the audio loop forward or backward. cls.MOVE_SPEED controls the speed of movement'
         log("moving the loop")
-        cls.START += cls.MOVE_SPEED * direction
-        cls.END += cls.MOVE_SPEED * direction
-        if cls.START < 0:
-            diff = 0 - cls.START
-            cls.START += diff
-            cls.END += diff
-            assert cls.END <= cls.get_max_frames()
-        elif cls.END > cls.get_max_frames():
-            diff = cls.get_max_frames() - cls.END
-            cls.START += diff
-            cls.END += diff
-            assert cls.START >= 0
+        s = cls.START + cls.MOVE_SPEED * direction
+        e = cls.END + cls.MOVE_SPEED * direction
+        if s < 0:
+            diff = 0 - s
+            s += diff
+            e += diff
+            assert e <= cls.get_max_frames()
+        elif e > cls.get_max_frames():
+            diff = cls.get_max_frames() - e
+            start += diff
+            e += diff
+            assert s >= 0
+        cls.START = s
+        cls.END = e
+        cls.set_current_frame(cls.START)
+
     
     @classmethod
     def reset_loop(cls):
@@ -189,7 +193,22 @@ class AudioSettings():
             f.setsampwidth(cls.wav.getsampwidth())
             f.setframerate(cls.wav.getframerate())
             f.setnframes(int(len(data) / cls.wav.getsampwidth()))
-            f.writeframes(data)
+            f.writeframes(data) 
+
+
+    ########### AUDIO EFFECTS  ################
+
+    @classmethod
+    def apply_effects(cls, data : bytes) -> bytes:
+        data = np.fromstring(data,dtype=np.int16)
+        max_16_bit_sample_value = (2 ** 15)
+        data = data.astype(np.float32) / max_16_bit_sample_value
+        board = Pedalboard([Chorus(), Reverb(room_size=0.25)])
+        data = board(data, cls.wav.getframerate(), reset=False)
+        data = data.tobytes()
+        return data
+        
+
 
 
 

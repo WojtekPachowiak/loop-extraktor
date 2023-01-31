@@ -1,4 +1,4 @@
-from audio_settings import AudioSettings
+from audio_master import AudioMaster
 from input import Input
 from audio_player import AudioPlayer
 from ui import UI
@@ -9,7 +9,7 @@ import sys
 
 def main():
 
-    AudioSettings.initialize()
+    AudioMaster.initialize("saved_audio")
     input_thread= Input(name="Input",daemon = True)
     ui_thread = UI(name="UI", daemon = True)
     audio_thread = AudioPlayer(name="Audio_Player",daemon = True)

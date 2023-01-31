@@ -1,4 +1,6 @@
 import logging
+from functools import wraps
+import sys
 
 logging.basicConfig(filename="log.txt",
                     filemode='w',
@@ -13,3 +15,12 @@ def error(msg:str):
 
 
 
+def error_handle(func):
+    @wraps(func)
+    def warapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as e:
+            error(e)
+            sys.exit()
+    return warapper

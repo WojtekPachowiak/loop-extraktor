@@ -11,12 +11,12 @@ from rich.layout import Layout
 from rich.live import Live
 
 
-from audio_settings import AudioSettings
+from audio_master import AudioMaster
 import threading
 import time
 import yaml
 
-from utils import log
+from utils import log, error_handle
 
 
 
@@ -31,17 +31,17 @@ class UI(threading.Thread):
         with open('controls.yaml', 'r') as file:
             self.controls = yaml.safe_load(file)
 
-    
+    @error_handle
     def run(self):
-        self.audio_bar = Progress(AudioProgressColumn(justify="center"), expand=True)
-        self.audio_bar.add_task("Audio timeline progress", console_width=self.audio_bar.console.width-6)
+            self.audio_bar = Progress(AudioProgressColumn(justify="center"), expand=True)
+            self.audio_bar.add_task("Audio timeline progress", console_width=self.audio_bar.console.width-6)
 
-        self.setup_layout()
-        self.update_layout()
-        with Live(self.layout, refresh_per_second=100, screen=True) as live:
-            while AudioSettings.is_running:
-                time.sleep(0.01)
-                self.update_layout()
+            self.setup_layout()
+            self.update_layout()
+            with Live(self.layout, refresh_per_second=100, screen=True) as live:
+                while AudioMaster.is_running:
+                    time.sleep(0.01)
+                    self.update_layout()
 
  
     def setup_layout(self):
@@ -76,12 +76,12 @@ class UI(threading.Thread):
 
     def draw_timeline(self):
         'draw audio timeline'
-        if AudioSettings.is_wav_loaded:
-            log(f"Timeline is being updated: {AudioSettings.get_current_frame()} / {AudioSettings.get_max_frames()}")
+        if AudioMaster.is_wav_loaded:
+            log(f"Timeline is being updated: {AudioMaster.get_current_frame()} / {AudioMaster.get_max_frames()}")
             self.audio_bar.update(
                 self.audio_bar.task_ids[0], 
-                total=AudioSettings.get_max_frames(), 
-                completed=AudioSettings.get_current_frame(), 
+                total=AudioMaster.get_max_frames(), 
+                completed=AudioMaster.get_current_frame(), 
                 console_width=self.audio_bar.console.width-6)
         self.layout["timeline"].update(Panel(self.audio_bar,expand=True))
 
@@ -91,13 +91,13 @@ class UI(threading.Thread):
         audio_table = Table(show_edge=True,title_justify="left" ,show_header=False, box= box.ROUNDED, expand=True)
         audio_table.add_column("Property",justify="right", style="cyan")
         audio_table.add_column("Frame")
-        if AudioSettings.is_wav_loaded:
-            audio_table.add_row("Start", f"{AudioSettings.START:,}")
-            audio_table.add_row("End", f"{AudioSettings.END:,}")
-            audio_table.add_row("Length", f"{AudioSettings.END - AudioSettings.START:,}")
+        if AudioMaster.is_wav_loaded:
+            audio_table.add_row("Start", f"{AudioMaster.START:,}")
+            audio_table.add_row("End", f"{AudioMaster.END:,}")
+            audio_table.add_row("Length", f"{AudioMaster.END - AudioMaster.START:,}")
             audio_table.add_section()
-            audio_table.add_row("Frames", f"{AudioSettings.get_current_frame():,} / {AudioSettings.get_max_frames():,}")
-            audio_table.add_row("Miliseconds",f"{AudioSettings.get_current_frame(ms_convert=True):,} / {AudioSettings.get_max_frames(ms_convert=True):,}")
+            audio_table.add_row("Frames", f"{AudioMaster.get_current_frame():,} / {AudioMaster.get_max_frames():,}")
+            audio_table.add_row("Miliseconds",f"{AudioMaster.get_current_frame(ms_convert=True):,} / {AudioMaster.get_max_frames(ms_convert=True):,}")
         else:
             audio_table.add_row("Start", "-" )
             audio_table.add_row("End", "-")
@@ -116,12 +116,12 @@ class AudioProgressColumn(TextColumn):
         super().__init__(text_format, *args, **kwargs)
 
     def render(self, task: Task) -> Text:
-        if not AudioSettings.is_wav_loaded:
+        if not AudioMaster.is_wav_loaded:
             return Text("DRAG-N-DROP SOME .WAV FILE!", justify=self.justify,  style="bold red")
         else:
             width = task.fields["console_width"] + 1 #+1 because of indicator
-            ls = AudioSettings.START
-            le = AudioSettings.END
+            ls = AudioMaster.START
+            le = AudioMaster.END
             bar = "█"
             indicator = "|"
             

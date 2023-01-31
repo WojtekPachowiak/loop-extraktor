@@ -1,7 +1,5 @@
-- saving loop as .wav
-- implement 'rich' (python package) interface
-- load audio files by drag and drop
-- in rich progress bar show time in seconds instead of frames
+- (REPLACE WITH FILEDIALOG; HOWEVER STILL DESIRABLE) load audio files by drag and drop
 - allow for speeding up
-- allow for arpegio se
-- imlement applying audio effects
+- allow for arpegio 
+- imlement applying audio effects ||| bug with converting byte format
+- switch to pedalboards AudioFile for opening files
