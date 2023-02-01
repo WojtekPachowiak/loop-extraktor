@@ -6,14 +6,15 @@ import random
 import pyaudio
 from datetime import datetime
 import sys
-from utils import log
-from pedalboard import Pedalboard, Chorus, Reverb
-import numpy as np
+from pathlib import Path
+from log import Logger, error_handle
+
+
 
 class AudioMaster():
     """
-    Looper is the master of all - coordiantes the work of input, UI and audio threads. 
-    Also stores information which is quieried by UI and audio threads.
+    Stores information which is quiried by UI and audio threads. 
+    Contains functions which manipulate the audio player (for example, setting playback position/speed or loop position/size).
 
     Terminology:
         "audio loop" - the audio range between START and END markers which is being looped over
@@ -27,27 +28,28 @@ class AudioMaster():
     def initialize(cls, destpath:str="", **kwargs):
         """
         Args:
-          srcpath (str) : path to the currently playing .wav file.
           destpath (str) : path to the directory where new .wav files are being saved 
-          initial_loop_length (int): the length of the loop in samples after glitchy sound looper is activated. -1 that loop spans the whole audio track
         """
-        cls.CHUNK_SIZE = 1024
-        cls.is_running = True
-        cls.is_paused = False
-        cls.START = 0
-        cls.END = None
-        cls.MOVE_SPEED = 10000
-        cls.wav = None
+
+        cls.BUFFER_SIZE = 1024 # how many frames to read at once
+        cls.LOOP_START = 0 # frame number of the start of the audio loop
+        cls.LOOP_END = None # frame number of the end of the audio loop
+        cls.SEEK_SPEED = 10000 # how many frames to jump when seeking
+        cls.PLAYBACK_SPEED = 1.0 # playback speed of the audio file
+        cls.PLAYBACK_SPEED_MAX = 2.0 # maximum playback speed
+        cls.PLAYBACK_SPEED_MIN = 0.1 # minimum playback speed
+
+        cls.is_running = True # is the app running?
+        cls.is_paused = False 
+        cls.is_wav_loaded = False # is an audio file loaded?
+
+        cls.wav = None 
         cls.stream = None
-        cls.is_wav_loaded = False
-        
-        if not destpath.endswith("/") and not destpath.endswith("\\"):
-            destpath += "/"
-        cls.destpath = destpath
-                
+        cls.filepath = None
+        cls.destpath = os.path.abspath(destpath)
         cls.player = pyaudio.PyAudio()
 
-        log("Init finished!")
+        Logger.log("Init finished!")
 
         
 
@@ -56,13 +58,13 @@ class AudioMaster():
     @classmethod
     def play(cls):
         "continue playback."
-        log("Play!")
+        Logger.log("Play!")
         cls.is_paused = False
     
     @classmethod
     def stop(cls):
         "stop playback."
-        log("Stop!")
+        Logger.log("Stop!")
         cls.is_paused = True
 
     ########### CLOSE/TERMINATE APP ########
@@ -70,7 +72,7 @@ class AudioMaster():
     @classmethod
     def close(cls):
         'clean up and terminate the app'
-        log("Closing app!")
+        Logger.log("Closing app!")
 
         cls.wav.close()
         cls.stream.close()
@@ -81,39 +83,67 @@ class AudioMaster():
     
     @classmethod
     def load_audio(cls, path:str):
-        'load audio file, start UI printing and immediately plays it'
+        'load audio file, start UI printing and immediately play it'
+
         cls.filepath = os.path.abspath(path)
         cls.wav = wave.open(cls.filepath, 'rb')
         cls.stream = cls.player.open(format=cls.player.get_format_from_width(cls.wav.getsampwidth()),
                                        channels=cls.wav.getnchannels(),
                                        rate=cls.wav.getframerate(),
                                        output=True)
-        log(f"stream format: {cls.player.get_format_from_width(cls.wav.getsampwidth())}")
-        log("Audio loaded!")
+        Logger.log(f"stream format: {cls.player.get_format_from_width(cls.wav.getsampwidth())}")
+        Logger.log("Audio loaded!")
         cls.is_paused = False
         cls.reset_loop()
         cls.is_wav_loaded = True
+        
 
-
-    ############# QUEARY WAVE ###############
+    ############# QUEARY AND MODIFY WAVE ###############
     
     @classmethod
     def get_max_frames(cls, ms_convert=False):
-        'gets the number of frames the audio file contains'
+        '''
+        gets the number of frames the audio file contains
+        
+        Args:
+            ms_convert (bool) : if True, returns the number of frames in milliseconds
+        '''
         f = cls.wav.getnframes()
         if ms_convert:
             f = cls.frame_to_ms(f)
         return f
-    
+
+
     @classmethod
     def get_current_frame(cls, ms_convert=False):
-        'gets the frame number of the current frame'
+        '''
+        gets the frame number of the current frame
+        
+        Args:
+            ms_convert (bool) : if True, returns the current frame in milliseconds
+        '''
         f = cls.wav.tell()
         if ms_convert:
             f = cls.frame_to_ms(f)
         return f
     
-    
+
+    @classmethod
+    def change_playback_speed(cls, delta:float):
+        '''
+        sets the framerate of the audio file
+        
+        Args:
+            change (float) : how much to change the playback speed (1.0 = normal speed) 
+        '''
+        cls.PLAYBACK_SPEED += delta
+        cls.PLAYBACK_SPEED = max(cls.PLAYBACK_SPEED, cls.PLAYBACK_SPEED_MIN)
+        cls.PLAYBACK_SPEED = min(cls.PLAYBACK_SPEED, cls.PLAYBACK_SPEED_MAX)
+        cls.stream = cls.player.open(format=cls.player.get_format_from_width(cls.wav.getsampwidth()),
+                                       channels=cls.wav.getnchannels(),
+                                       rate=int(cls.wav.getframerate() * cls.PLAYBACK_SPEED),
+                                       output=True)
+
     
     @classmethod
     def set_current_frame(cls, frame: int):
@@ -130,30 +160,30 @@ class AudioMaster():
     @classmethod
     def shuffle_loop_start(cls):
         'randomly change the place of the audio loop (=move START and END markers unfiormly)'
-        nf = random.randint(0, cls.get_max_frames() - (cls.END - cls.START))
-        diff = cls.START - nf
-        cls.START = nf
-        cls.END = cls.END - diff
+        nf = random.randint(0, cls.get_max_frames() - (cls.LOOP_END - cls.LOOP_START))
+        diff = cls.LOOP_START - nf
+        cls.LOOP_START = nf
+        cls.LOOP_END = cls.LOOP_END - diff
         cls.set_current_frame(nf)
     
     @classmethod
     def decrease_loop_length(cls):
         'shorten the audio loop'
-        cls.END -= cls.MOVE_SPEED
-        cls.END = max(cls.END, cls.START)
+        cls.LOOP_END -= cls.SEEK_SPEED
+        cls.LOOP_END = max(cls.LOOP_END, cls.LOOP_START)
     
     @classmethod
     def increase_loop_length(cls):
         'elongate the audio loop'
-        cls.END += cls.MOVE_SPEED
-        cls.END = min(cls.END, cls.get_max_frames())
+        cls.LOOP_END += cls.SEEK_SPEED
+        cls.LOOP_END = min(cls.LOOP_END, cls.get_max_frames())
     
     @classmethod
     def move_loop(cls, direction: Literal[-1, 1]):
         'move the audio loop forward or backward. cls.MOVE_SPEED controls the speed of movement'
-        log("moving the loop")
-        s = cls.START + cls.MOVE_SPEED * direction
-        e = cls.END + cls.MOVE_SPEED * direction
+        Logger.log("moving the loop")
+        s = cls.LOOP_START + cls.SEEK_SPEED * direction
+        e = cls.LOOP_END + cls.SEEK_SPEED * direction
         if s < 0:
             diff = 0 - s
             s += diff
@@ -161,19 +191,19 @@ class AudioMaster():
             assert e <= cls.get_max_frames()
         elif e > cls.get_max_frames():
             diff = cls.get_max_frames() - e
-            start += diff
+            s += diff
             e += diff
             assert s >= 0
-        cls.START = s
-        cls.END = e
-        cls.set_current_frame(cls.START)
+        cls.LOOP_START = s
+        cls.LOOP_END = e
+        cls.set_current_frame(cls.LOOP_START)
 
     
     @classmethod
     def reset_loop(cls):
         'resets loop so that START==0 and END==maxframes. unpause'
-        cls.START = 0
-        cls.END = cls.wav.getnframes()
+        cls.LOOP_START = 0
+        cls.LOOP_END = cls.wav.getnframes()
     
     ############# SAVE AUDIO LOOP AS WAV ###############
     
@@ -182,13 +212,13 @@ class AudioMaster():
         'extract the audio located in the audio loop (between START and END markers) and save it as a new .wav file'
         #read frames from the current audio loop
         tmp = cls.get_current_frame()
-        cls.set_current_frame(cls.START)
-        data = cls.wav.readframes(cls.END - cls.START)
+        cls.set_current_frame(cls.LOOP_START)
+        data = cls.wav.readframes(cls.LOOP_END - cls.LOOP_START)
         cls.set_current_frame(tmp)
 
         #save the new .wav file
-        name = cls.destpath + datetime.now().strftime("%H-%M-%S__%d-%m-%y") + ".wav"
-        with wave.open(name, 'w') as f:
+        path = os.path.join(cls.destpath, datetime.now().strftime("%H-%M-%S__%d-%m-%y") + ".wav")
+        with wave.open(path, 'w') as f:
             f.setnchannels(cls.wav.getnchannels())
             f.setsampwidth(cls.wav.getsampwidth())
             f.setframerate(cls.wav.getframerate())
@@ -197,16 +227,23 @@ class AudioMaster():
 
 
     ########### AUDIO EFFECTS  ################
+    # SUSPENDED FOR NOW
+    # @classmethod
+    # def apply_effects(cls, data : bytes) -> bytes:
+    #     data = np.fromstring(data,dtype=np.int16)
+    #     max_16_bit_sample_value = (2 ** 15)
+    #     data = data.astype(np.float32) / max_16_bit_sample_value
+    #     board = Pedalboard([Chorus(), Reverb(room_size=0.25)])
+    #     data = board(data, cls.wav.getframerate(), reset=False)
+    #     data = data.tobytes()
+    #     return data
+
+
+    ########################
 
     @classmethod
-    def apply_effects(cls, data : bytes) -> bytes:
-        data = np.fromstring(data,dtype=np.int16)
-        max_16_bit_sample_value = (2 ** 15)
-        data = data.astype(np.float32) / max_16_bit_sample_value
-        board = Pedalboard([Chorus(), Reverb(room_size=0.25)])
-        data = board(data, cls.wav.getframerate(), reset=False)
-        data = data.tobytes()
-        return data
+    def get_output_latency(cls):
+        return cls.stream.get_output_latency()
         
 
 

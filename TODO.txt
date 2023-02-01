@@ -1,5 +1,0 @@
-- (REPLACE WITH FILEDIALOG; HOWEVER STILL DESIRABLE) load audio files by drag and drop
-- allow for speeding up
-- allow for arpegio 
-- imlement applying audio effects ||| bug with converting byte format
-- switch to pedalboards AudioFile for opening files

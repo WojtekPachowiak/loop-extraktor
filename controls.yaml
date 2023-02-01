@@ -1,8 +1,11 @@
 SPACE : randomly choose audio loop's position
-S : unpause the recording
-E : pause the recording
+P : pause/unpause the recording
+L : load audio file
+S : save the selected loop as .wav
+ESC/q : exit
 ']' : increase loop length
 '[' : decrease loop length
 RIGHT_ARROW : move loop to the right
 LEFT_ARROW : move loop to the left
-R : save the selected loop as .wav
+DOWN_ARROW : slow down playback
+LEFT_ARROW : speed up playback
