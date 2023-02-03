@@ -1,0 +1,6 @@
+MainThread | INFO: Init finished!
+Input | INFO: Input key: l
+Input | INFO: Audio loaded!
+UI | INFO: Timeline is being updated: 1024 / 133538
+UI | INFO: Timeline is being updated: 1024 / 133538
+UI | INFO: Timeline is being updated: 1024 / 133538

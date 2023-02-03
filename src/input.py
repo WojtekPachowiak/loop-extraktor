@@ -60,7 +60,7 @@ class Input(threading.Thread):
                 file_path = filedialog.askopenfilename()
                 AudioMaster.load_audio(file_path)  
 
-        if not AudioMaster.is_wav_loaded:
+        if not AudioMaster.is_audio_loaded:
             return
         
         #input only detected if an audio file is loaded

@@ -16,11 +16,12 @@ class AudioPlayer(threading.Thread):
         while AudioMaster.is_running:
 
             # stop execution during pause
-            while AudioMaster.is_paused or not AudioMaster.is_wav_loaded:
+            while AudioMaster.is_paused or not AudioMaster.is_audio_loaded:
                 pass
 
             #read audio frames and play them
-            data = AudioMaster.wav.readframes(AudioMaster.BUFFER_SIZE)
+            data = AudioMaster.audio.read(AudioMaster.BUFFER_SIZE)
+            data = data.tobytes()
             AudioMaster.stream.write(data)
 
             # Jump to START marker if file is over or the END marker has been reached

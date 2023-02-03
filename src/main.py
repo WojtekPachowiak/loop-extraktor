@@ -6,9 +6,11 @@ import typer
 import threading
 import time
 import sys
-from log import Logger
+from log import Logger, error_handle
 import os
 
+
+@error_handle
 def main(
     output_dir: str = typer.Option(".", "--output_dir", "-o", help="Directory to save audio files to"),
     log:bool = typer.Option(False, "--log", "-l", help="Enable logging. Logs are saved to the CWD as 'log.txt'")

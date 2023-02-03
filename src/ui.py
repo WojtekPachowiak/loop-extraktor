@@ -85,7 +85,7 @@ class UI(threading.Thread):
     @error_handle
     def draw_timeline(self):
         'draw audio timeline'
-        if AudioMaster.is_wav_loaded:
+        if AudioMaster.is_audio_loaded:
             Logger.log(f"Timeline is being updated: {AudioMaster.get_current_frame()} / {AudioMaster.get_max_frames()}")
             self.audio_bar.update(
                 self.audio_bar.task_ids[0], 
@@ -101,7 +101,7 @@ class UI(threading.Thread):
         audio_table.add_column(justify="right", style="cyan",ratio=1)
         audio_table.add_column(ratio=3)
     
-        if AudioMaster.is_wav_loaded:
+        if AudioMaster.is_audio_loaded:
             audio_table.add_row("Start", f"{AudioMaster.LOOP_START:,}")
             audio_table.add_row("End", f"{AudioMaster.LOOP_END:,}")
             audio_table.add_row("Length", f"{AudioMaster.LOOP_END - AudioMaster.LOOP_START:,}")
@@ -138,7 +138,7 @@ class AudioProgressColumn(TextColumn):
         'render the progress bar that will be displayed to the user'
 
         #if no audio is loaded, display a message
-        if not AudioMaster.is_wav_loaded:
+        if not AudioMaster.is_audio_loaded:
             return Text(AUDIO_NOT_LOADED_MSG, justify=self.justify,  style="bold red")
         else:
             width = task.fields["console_width"] + 1 # width of the console; +1 because of indicator
