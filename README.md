@@ -1,16 +1,31 @@
-# loop-extraktor - looping random segments from an audio track (for experimentation and fun!)
+# `loop-extraktor` - creatively loop .wav file's audio segments (for experimentation and fun!)
 
-Based on the following gist: https://gist.github.com/THeK3nger/3624478
-from [THeK3nger](https://github.com/THeK3nger)
+## Video example
 
-# Loop audio files starting in random places and with adjustable loop interval
+[![Watch the video](https://img.youtube.com/vi/CoHniw9phoA/maxresdefault.jpg)](https://youtu.be/CoHniw9phoA)
 
-# Usage
+(note that there's mistake in controls panel: `LEFT_ARROW` moves the loop to the left and `UP_ARROW` speeds up playback)
 
-`src\main.py -o .\saved_audio\`
+## Features
+- moving loop (`left/right arrows`)
+- resizing loop (`]``[`)
+- randomly placing loop (`SPACE`)
+- saving audio in the loop as .wav (`S`)
+- pause/unpause (`P`)
+- load new audio whenever you want (`L`)
+- slowdown/speedup audio playback (`up/down arrows`)
 
-# TODO (Contrubtions welcome)
-- Switch to `pedalboard`'s `AudioFile` for opening files
+## Usage
+
+`src\main.py -o <where-you-want-to-save-audio-when-pressing-S> (--log)` \
+`--log` enables logging for debugging purposes
+
+For example run: \
+`src\main.py -o .\saved_audio\` 
+
+
+## TODO (Contrubtions welcome)
+- Switch to `pedalboard`'s `AudioFile` for opening files other than `.wav`
 - (SUSPENDED; not sure if it can be made efficient in Python) Implement applying audio effects real-time (delay, reverb, pitch shift, etc.) and arppeggio 
 - Load audio files by drag and drop
 - (SUSPENDED; working with Rich TUI is a pain in the ass for proper error handling) error handle to prevent crashes when, for example, opening non-wav files
