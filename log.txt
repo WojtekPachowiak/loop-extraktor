@@ -1,2 +1,0 @@
-MainThread | INFO: Init finished!
-Input | INFO: Input key: l

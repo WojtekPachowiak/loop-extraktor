@@ -5,7 +5,7 @@ S : save the selected loop as .wav
 ESC/q : exit
 ']' : increase loop length
 '[' : decrease loop length
-RIGHT_ARROW : move loop to the right
-LEFT_ARROW : move loop to the left
+(SHIFT/CTRL +) RIGHT_ARROW : move loop to the right
+(SHIFT/CTRL +) LEFT_ARROW : move loop to the left
 DOWN_ARROW : slow down playback
 LEFT_ARROW : speed up playback
