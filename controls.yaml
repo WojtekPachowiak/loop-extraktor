@@ -8,4 +8,4 @@ ESC/q : exit
 RIGHT_ARROW : move loop to the right
 LEFT_ARROW : move loop to the left
 DOWN_ARROW : slow down playback
-LEFT_ARROW : speed up playback
+UP_ARROW : speed up playback
